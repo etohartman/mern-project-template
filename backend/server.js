@@ -3,6 +3,8 @@ const express = require('express');
 const logger = require('morgan');
 const app = express();
 
+const hootsRouter = require("./controllers/hoots.js");
+
 // Process the secrets/config vars in .env
 require('dotenv').config();
 
@@ -16,15 +18,23 @@ app.use(express.static(path.join(__dirname, '../frontend/dist')));
 // because forms are not submitted!
 app.use(express.json());
 
-// API Routes
+app.use("/hoots", hootsRouter);
 
+// API Routes
 
 // Use a "catch-all" route to deliver the frontend's production index.html
 app.get('/*splat', function (req, res) {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
+router.post("/", verifyToken, async (req, res) => {
+  // new route
+});
+
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`The express app is listening on ${port}`);
 });
+
